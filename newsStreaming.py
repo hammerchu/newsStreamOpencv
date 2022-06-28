@@ -46,10 +46,10 @@ def runStream():
 
         raw_image = pipe.stdout.read(X*Y*3)
         image =  np.fromstring(raw_image, dtype='uint8').reshape((Y,X,3))
-        smallerImage = image[0:int(Y/2), 0:int(X/2)]
+        smallerImage = image[0:int(Y/3), 0:int(X/3)]
 
         if (index % 25 == 0):
-            mnLoc = detectLogo(logoImg, image)
+            mnLoc = detectLogo(logoImg, smallerImage)
             MPx,MPy = mnLoc
             trows,tcols = logoImg.shape[:2]
             cv2.rectangle(image, (MPx,MPy),(MPx+tcols,MPy+trows),(0,0,255),2)
@@ -63,7 +63,7 @@ def runStream():
 
         cv2.putText(image, "Fps:", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,0,255), 2)
         fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer) # calculate FPS
-        if fps>20: UIColor = (230,20,20)
+        if fps>20: UIColor = (230,230,200)
         else: UIColor = (20,20,230)
         cv2.putText(image,str(int(fps)), (75, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, UIColor, 2)
 
